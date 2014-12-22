@@ -15,7 +15,8 @@ $ make install
 // open a new terminal
 $ make TEST (== gcc test.c -Wall)
 
-*note*:
+
+note:
 (1) if you want to uninstall or reinstall, please remove alias added in ~/.bashrc at the end of line manually.
 
 (2) if you want to add new compile tool, you can add it at Makefile, like echo 'alias arm-linux-gcc="color_compile arm-linux-gcc"' >> $(ALIAS_FILE)
