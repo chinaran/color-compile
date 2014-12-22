@@ -29,4 +29,10 @@ note:
 
 (3) if you want to change the color of color-compile showed, you can change out_color_info.c, there are some macro define color.
 
+result:
+-------
+before using color-compile
+![before using color-compile](https://github.com/chinaran/color-compile/blob/master/pic/before.png)
 
+after using color-compile
+![after using color-compile](https://github.com/chinaran/color-compile/blob/master/pic/after.png)
