@@ -40,5 +40,7 @@ after using color-compile
 ![after using color-compile](https://github.com/chinaran/my-pictures/blob/master/color-compile/after.png)
 
 Author: Alan Wang <gchinaran@gmail.com>
+
 Started: Dec. 20, 2014
+
 Licence: Apache Licene 2.0
