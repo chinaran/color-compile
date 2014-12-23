@@ -32,7 +32,7 @@ note:
 result:
 -------
 before using color-compile
-![before using color-compile](https://github.com/chinaran/color-compile/blob/master/pic/before.png)
+![before using color-compile](https://github.com/chinaran/my-pictures/blob/master/color-compile/before.png)
 
 after using color-compile
-![after using color-compile](https://github.com/chinaran/color-compile/blob/master/pic/after.png)
+![after using color-compile](https://github.com/chinaran/my-pictures/blob/master/color-compile/after.png)
