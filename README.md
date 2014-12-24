@@ -48,16 +48,21 @@ Licence: Apache Licene 2.0
 中文说明：
 ---------
 (1) 编译 （进到项目根目录）
+
 $ make
 
 (2) 安装 (需要超级权限)
+
 $ make install
+
 （这一步做了两件事，一是把主程序拷贝到 /usr/local/bin/ 下，二是添加了 gcc/g++/make 的别名到 ~/.bashrc 的末尾）
 
 (3) 测试 （新打开一个终端）
+
 $ make TEST  (== gcc test.c -Wall)
 
 注意事项:
+
 (1) 如果你的 gcc 版本 >= 4.9.0，可以直接使用 -fdiagnostics-color=auto 参数，显示效果应该比 color-compile 好（没试过）
 
 (2) 如果你需要卸载或者重装，请删除 ~/.bashrc 末尾处的gcc/g++/make 别名，以免影响之后的使用。
