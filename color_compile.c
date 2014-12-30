@@ -18,6 +18,7 @@ int main(int argc, char const *argv[])
 	}
 	
 	// copy cmd
+	buf[0] = '\0';
 	for (i = 1; i < argc; ++i)
 	{
 		strncat(buf, argv[i], CAT_SIZE);
