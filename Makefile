@@ -1,6 +1,7 @@
 CFLAGS	:= -Wall
 OBJ	:= color_compile out_color_info
-ALIAS_FILE	:= ~/.bashrc
+BASH_FILE	:= ~/.bashrc
+ZSH_FILE	:= ~/.zshrc
 
 all: $(OBJ)
 
@@ -21,10 +22,13 @@ install:
 	cp color_compile /usr/local/bin/
 	cp out_color_info /usr/local/bin/
 
-	echo 'alias gcc="color_compile gcc"' >> $(ALIAS_FILE)
-	echo 'alias g++="color_compile g++"' >> $(ALIAS_FILE)
-	echo 'alias make="color_compile make"' >> $(ALIAS_FILE)
-	. $(ALIAS_FILE)
+	echo 'alias gcc="color_compile gcc"' >> $(BASH_FILE)
+	echo 'alias g++="color_compile g++"' >> $(BASH_FILE)
+	echo 'alias make="color_compile make"' >> $(BASH_FILE)
+	echo 'alias gcc="color_compile gcc"' >> $(ZSH_FILE)
+	echo 'alias g++="color_compile g++"' >> $(ZSH_FILE)
+	echo 'alias make="color_compile make"' >> $(ZSH_FILE)
+	. $(BASH_FILE)
 
-TEST:
+test:
 	gcc test.c -Wall
