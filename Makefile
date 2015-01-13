@@ -24,7 +24,6 @@ install:
 	echo 'alias gcc="color_compile gcc"' >> $(ALIAS_FILE)
 	echo 'alias g++="color_compile g++"' >> $(ALIAS_FILE)
 	echo 'alias make="color_compile make"' >> $(ALIAS_FILE)
-	. $(ALIAS_FILE)
 
 TEST:
 	gcc test.c -Wall

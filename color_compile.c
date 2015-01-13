@@ -16,6 +16,14 @@ int main(int argc, char const *argv[])
 		fprintf(stderr, "[color_compile] bad argument...\n");
 		return 1;
 	}
+
+	// declude make menuconfig
+	if (3 == argc
+		&& 0 == strcmp(argv[1], "make") && 0 == strcmp(argv[2], "menuconfig") )
+	{
+		system("make menuconfig");
+		return 0;
+	}
 	
 	// copy cmd
 	buf[0] = '\0';
