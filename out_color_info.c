@@ -43,7 +43,8 @@ int main(void)
 		}
 
 		// color_comile.c:35:6: warning: unused variable ‘t’ [-Wunused-variable]
-		if (4 != str_char_count(line, ':'))
+		// xx.c:11:41: fatal error: include/xx.h: No such file or directory
+		if (str_char_count(line, ':') < 4)
 		{
 			printf("%s", line);
 			continue;
