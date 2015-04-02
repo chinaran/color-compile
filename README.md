@@ -3,13 +3,13 @@ color-compile
 
 show compile message with color when show up error/warning/note using gcc/g++/make
 
-(1) compile
+(1) compile ("\make" means using system make, not alias)
 
-$ make
+$ \make
 
 (2) install (need root permission)
 
-$ make install
+$ \make install
 
 // copy exec program to /usr/local/bin/
 
@@ -47,13 +47,13 @@ Licence: Apache Licene 2.0
 
 中文说明：
 ---------
-(1) 编译 （进到项目根目录）
+(1) 编译 （进到项目根目录，"\make" 是使用系统make，而不是alias别名）
 
-$ make
+$ \make
 
 (2) 安装 (需要超级权限)
 
-$ make install
+$ \make install
 
 （这一步做了两件事，一是把主程序拷贝到 /usr/local/bin/ 下，二是添加了 gcc/g++/make 的别名到 ~/.bashrc 的末尾）
 
