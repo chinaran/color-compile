@@ -127,9 +127,9 @@ static void color_print_line(const char *line, const char *color, int b_cn)
 	{
 		msg = strstr(col + 1, "：");
 		snprintf(buf, msg - col, "%s", col + 1);
-		printf("%s%s%s:", color, buf, COLOR_END);
+		printf("%s%s%s：", color, buf, COLOR_END);
 
-		printf("%s%s%s%s", color, BOLD, msg + 2, COLOR_END);
+		printf("%s%s%s%s", color, BOLD, msg + strlen("："), COLOR_END);
 	}
 }
 
