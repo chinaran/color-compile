@@ -22,6 +22,8 @@
 #define ROW_COLOR		PURPLE
 #define COL_COLOR		BLUE
 
+#define MAKE	"make: ***"
+
 #define WARNING	"warning:"
 #define ERROR	"error:"
 #define NOTE	"note:"
@@ -52,6 +54,7 @@ static struct mark_st Mark[MARK_NUM] =
 
 // function declare
 static void color_print_line(const char *line, const char *color, int b_cn);
+static void color_print_make_error(const char *line);
 static int str_char_count(const char *str, char c);
 
 
@@ -59,6 +62,7 @@ int main(void)
 {
 	char line[LINE_SIZE];
 	int i;
+	size_t make_len = strlen(MAKE);
 
 	while (1)
 	{
@@ -72,7 +76,14 @@ int main(void)
 		// test.c:24:2: 错误： ‘a’未声明(在此函数内第一次使用)
 		if (str_char_count(line, ':') < 3)
 		{
-			printf("%s", line);
+			if (0 == strncmp(line, MAKE, make_len)) // make error at end
+			{
+				color_print_make_error(line);
+			}
+			else
+			{
+				printf("%s", line);
+			}
 			continue;
 		}
 
@@ -131,6 +142,24 @@ static void color_print_line(const char *line, const char *color, int b_cn)
 
 		printf("%s%s%s%s", color, BOLD, msg + strlen("："), COLOR_END);
 	}
+}
+
+static void color_print_make_error(const char *line)
+{
+	// make: *** [obj/main.o] Error 1
+	char *left;
+	char *right;
+	char buf[LINE_SIZE];
+
+	left = index(line, '[');
+	snprintf(buf, left - line + 1, "%s", line);
+	printf("%s%s%s%s", RED, BOLD, buf, COLOR_END);
+	
+	right = index(left + 1, ']');
+	snprintf(buf, right - left + 2, "%s", left);
+	printf("%s%s%s", YELLOW, buf, COLOR_END);
+
+	printf("%s%s%s%s", RED, BOLD, right + 1, COLOR_END);
 }
 
 static int str_char_count(const char *str, char c)
