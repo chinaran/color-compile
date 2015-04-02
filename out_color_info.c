@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define LINE_SIZE	1024
+#define LINE_SIZE	2048
 
 // printed color
 #define BLACK	"\033[30m"
@@ -118,16 +118,19 @@ static void color_print_line(const char *line, const char *color, int b_cn)
 	if (FALSE == b_cn)
 	{
 		msg = index(col + 1, ':');
+		snprintf(buf, msg - col, "%s", col + 1);
+		printf("%s%s%s:", color, buf, COLOR_END);
+
+		printf("%s%s%s%s", color, BOLD, msg + 1, COLOR_END);
 	}
 	else
 	{
 		msg = strstr(col + 1, "：");
-	}
-	
-	snprintf(buf, msg - col, "%s", col + 1);
-	printf("%s%s%s:", color, buf, COLOR_END);
+		snprintf(buf, msg - col, "%s", col + 1);
+		printf("%s%s%s:", color, buf, COLOR_END);
 
-	printf("%s%s%s%s", color, BOLD, msg + 1, COLOR_END);
+		printf("%s%s%s%s", color, BOLD, msg + 2, COLOR_END);
+	}
 }
 
 static int str_char_count(const char *str, char c)
