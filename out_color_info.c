@@ -108,6 +108,9 @@ int main(void)
 static void color_print_line(const char *line, const char *color, int b_cn)
 {
 	// color_comile.c:35:6: warning: unused variable ‘t’ [-Wunused-variable]
+	// arm-linux-gcc: error: xxx: No such file or directory
+	// gcc: 错误： test.c：没有那个文件或目录
+	// gcc: 致命错误： 没有输入文件
 	char *filename;
 	char *row;
 	char *col;
@@ -119,29 +122,62 @@ static void color_print_line(const char *line, const char *color, int b_cn)
 	printf("%s%s%s%s:", color, BOLD, buf, COLOR_END);
 
 	row = index(filename + 1, ':');
-	snprintf(buf, row - filename, "%s", filename + 1);
-	printf("%s%s%s%s:", ROW_COLOR, BOLD, buf, COLOR_END);
+	if (row != NULL)
+	{
+		snprintf(buf, row - filename, "%s", filename + 1);
+		printf("%s%s%s%s:", ROW_COLOR, BOLD, buf, COLOR_END);
+	}
+	else
+	{
+		printf("%s\n", filename + 1);
+		return;
+	}
+	
 
 	col = index(row + 1, ':');
-	snprintf(buf, col - row, "%s", row + 1);
-	printf("%s%s%s:", COL_COLOR, buf, COLOR_END);
+	if (col != NULL)
+	{
+		snprintf(buf, col - row, "%s", row + 1);
+		printf("%s%s%s:", COL_COLOR, buf, COLOR_END);
+	}
+	else
+	{
+		printf("%s\n", row + 1);
+		return;
+	}
 
 	if (FALSE == b_cn)
 	{
 		msg = index(col + 1, ':');
-		snprintf(buf, msg - col, "%s", col + 1);
-		printf("%s%s%s:", color, buf, COLOR_END);
+		if (msg != NULL)
+		{
+			snprintf(buf, msg - col, "%s", col + 1);
+			printf("%s%s%s:", color, buf, COLOR_END);
 
-		printf("%s%s%s%s", color, BOLD, msg + 1, COLOR_END);
+			printf("%s%s%s%s", color, BOLD, msg + 1, COLOR_END);
+		}
+		else
+		{
+			printf("%s\n", col + 1);
+		}
 	}
 	else
 	{
 		msg = strstr(col + 1, "：");
-		snprintf(buf, msg - col, "%s", col + 1);
-		printf("%s%s%s：", color, buf, COLOR_END);
+		if (msg != NULL)
+		{
+			snprintf(buf, msg - col, "%s", col + 1);
+			printf("%s%s%s：", color, buf, COLOR_END);
 
-		printf("%s%s%s%s", color, BOLD, msg + strlen("："), COLOR_END);
+			printf("%s%s%s%s", color, BOLD, msg + strlen("："), COLOR_END);
+		}
+		else
+		{
+			printf("%s\n", col + 1);
+		}
 	}
+
+	return;
 }
 
 static void color_print_make_error(const char *line)
