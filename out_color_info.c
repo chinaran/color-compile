@@ -188,14 +188,21 @@ static void color_print_make_error(const char *line)
 	char buf[LINE_SIZE];
 
 	left = index(line, '[');
-	snprintf(buf, left - line + 1, "%s", line);
-	printf("%s%s%s%s", RED, BOLD, buf, COLOR_END);
-	
-	right = index(left + 1, ']');
-	snprintf(buf, right - left + 2, "%s", left);
-	printf("%s%s%s", YELLOW, buf, COLOR_END);
+	if (left != NULL)
+	{
+		snprintf(buf, left - line + 1, "%s", line);
+		printf("%s%s%s%s", RED, BOLD, buf, COLOR_END);
+		
+		right = index(left + 1, ']');
+		snprintf(buf, right - left + 2, "%s", left);
+		printf("%s%s%s", YELLOW, buf, COLOR_END);
 
-	printf("%s%s%s%s", RED, BOLD, right + 1, COLOR_END);
+		printf("%s%s%s%s", RED, BOLD, right + 1, COLOR_END);
+	}
+	else
+	{
+		printf("%s%s%s%s", RED, BOLD, line, COLOR_END);
+	}
 }
 
 static int str_char_count(const char *str, char c)
