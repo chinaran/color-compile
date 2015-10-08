@@ -27,7 +27,7 @@ note:
 
 (2) if you want to uninstall or reinstall, please remove alias added in ~/.bashrc at the end of line manually.
 
-(3) if you want to add new compile tool, you can add it at Makefile, like echo 'alias arm-linux-gcc="color_compile arm-linux-gcc"' >> $(ALIAS_FILE) or change ~/.bahsre directly.
+(3) if you want to add new compile tool, you can add it at Makefile, like echo 'alias arm-linux-gcc="color_compile arm-linux-gcc"' >> $(ALIAS_FILE) or change ~/.bashrc directly.
 
 (4) if you want to change the color of color-compile showed, you can change out_color_info.c, there are some macro define color.
 
