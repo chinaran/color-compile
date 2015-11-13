@@ -18,8 +18,8 @@ int main(int argc, char const *argv[])
 	}
 
 	// declude make menuconfig
-	if (3 == argc
-		&& 0 == strcmp(argv[1], "make") && 0 == strcmp(argv[2], "menuconfig") )
+	if (3 == argc && 0 == strcmp(argv[1], "make") && 
+	    0 == strcmp(argv[2], "menuconfig") )
 	{
 		system("make menuconfig");
 		return 0;
@@ -32,6 +32,7 @@ int main(int argc, char const *argv[])
 		strncat(buf, argv[i], CAT_SIZE);
 		strncat(buf, " ", CAT_SIZE);
 	}
+
 	// add out_color_info
 	strncat(buf, "2>&1 | out_color_info", CAT_SIZE);
 

@@ -5,7 +5,7 @@
 
 // printed color
 #define BLACK	"\033[30m"
-#define RED		"\033[31m"
+#define RED	"\033[31m"
 #define GREEN	"\033[32m"
 #define YELLOW	"\033[33m"
 #define BLUE	"\033[34m"
@@ -17,10 +17,10 @@
 #define COLOR_END	"\033[0m"
 
 #define WARNING_COLOR	YELLOW
-#define ERROR_COLOR		RED
-#define NOTE_COLOR		CYAN
-#define ROW_COLOR		PURPLE
-#define COL_COLOR		BLUE
+#define ERROR_COLOR	RED
+#define NOTE_COLOR	CYAN
+#define ROW_COLOR	PURPLE
+#define COL_COLOR	BLUE
 
 #define MAKE	"make: ***"
 
@@ -74,6 +74,7 @@ int main(void)
 		// color_comile.c:35:6: warning: unused variable ‘t’ [-Wunused-variable]
 		// xx.c:11:41: fatal error: include/xx.h: No such file or directory
 		// test.c:24:2: 错误： ‘a’未声明(在此函数内第一次使用)
+		// test.c:24: 错误：‘a’未声明(在此函数内第一次使用) // centos, gcc4.2
 		if (str_char_count(line, ':') < 3)
 		{
 			if (0 == strncmp(line, MAKE, make_len)) // make error at end
