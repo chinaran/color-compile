@@ -1,0 +1,25 @@
+arm-linux-gnueabihf-gcc -Wall -DWANDA_PARSE -DUP_PARSE_BG -DDEBUG -DUSE_TEST_FILE  -MD -I./include -L./lib/ -ldl -lpthread -lcurl -ljson-c -lini -liconv -lcconv -lpcap ./obj/add_print.o ./obj/bidirection_printer_op.o ./obj/common.o ./obj/curl_download.o ./obj/ebi.o ./obj/file_handle.o ./obj/gpio_config.o ./obj/handle_bg_server_push_msg.o ./obj/handle_original_bill.o ./obj/init.o ./obj/interface_init.o ./obj/io_init.o ./obj/led.o ./obj/llist_r.o ./obj/main.o ./obj/make_print_src_file.o ./obj/md5.o ./obj/mfifo.o ./obj/monitor_info_upload.o ./obj/msocket.o ./obj/netCapture.o ./obj/prf_op.o ./obj/printer_op.o ./obj/Queue.o ./obj/send_to_linux.o ./obj/serial.o ./obj/server_conn_op.o ./obj/sock_msg_recv.o ./obj/sock_transfer.o ./obj/spi.o ./obj/str_handle.o ./obj/test_tool.o ./obj/update_info_upload.o ./obj/usb_printer_file.o ./obj/usb-serial.o ./obj/whole_bill_print.o ./obj/bill_local_parse.o \
+	-o ./bin/billcapture
+/opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/../../../../arm-linux-gnueabihf/bin/ld: warning: libc.so.0, needed by ./lib//libjson-c.so, not found (try using -rpath or -rpath-link)
+/opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/../../../../arm-linux-gnueabihf/bin/ld: warning: libstdc++.so.6, needed by ./lib//libini.so, not found (try using -rpath or -rpath-link)
+/opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/../../../../arm-linux-gnueabihf/bin/ld: warning: libm.so.0, needed by ./lib//libini.so, not found (try using -rpath or -rpath-link)
+./obj/bill_local_parse.o: In function `Start_bill_local_parse_thread':
+bill_local_parse.cpp:(.text+0x42): undefined reference to `__cxa_end_cleanup'
+./obj/bill_local_parse.o: In function `set_ocr_xml_path()':
+bill_local_parse.cpp:(.text+0x22a): undefined reference to `__cxa_end_cleanup'
+./obj/bill_local_parse.o: In function `set_prf_parse_path()':
+bill_local_parse.cpp:(.text+0x2f8): undefined reference to `__cxa_end_cleanup'
+./obj/bill_local_parse.o: In function `local_parse_op(char const*, char**, char*, char const*, int)':
+bill_local_parse.cpp:(.text+0x734): undefined reference to `__cxa_end_cleanup'
+bill_local_parse.cpp:(.text+0x738): undefined reference to `__cxa_end_cleanup'
+./obj/bill_local_parse.o:bill_local_parse.cpp:(.text+0x922): more undefined references to `__cxa_end_cleanup' follow
+./obj/bill_local_parse.o:(.ARM.extab+0x0): undefined reference to `__gxx_personality_v0'
+./obj/bill_local_parse.o:(.ARM.extab+0x24): undefined reference to `__gxx_personality_v0'
+./obj/bill_local_parse.o:(.ARM.extab+0x40): undefined reference to `__gxx_personality_v0'
+./obj/bill_local_parse.o:(.ARM.extab+0x68): undefined reference to `__gxx_personality_v0'
+./obj/bill_local_parse.o:(.ARM.extab+0x94): undefined reference to `__gxx_personality_v0'
+./obj/bill_local_parse.o:(.ARM.extab+0xb0): more undefined references to `__gxx_personality_v0' follow
+/opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/../../../../arm-linux-gnueabihf/bin/ld: ./bin/billcapture: hidden symbol `stat' in /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/libc_nonshared.a(stat.oS) is referenced by DSO
+/opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/../../../../arm-linux-gnueabihf/bin/ld: final link failed: Bad value
+collect2: error: ld returned 1 exit status
+make: *** [all] Error 1
