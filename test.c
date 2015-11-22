@@ -22,7 +22,7 @@ int main(void)
 	}
 	
 	a; // this is an error
-	
+
 	return 0;
 }
 

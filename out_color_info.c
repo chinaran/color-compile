@@ -22,14 +22,14 @@
 #define ROW_COLOR	PURPLE
 #define COL_COLOR	BLUE
 
-#define MAKE	"make: ***"
+#define MAKE	"make"
 
 #define WARNING	"warning:"
 #define ERROR	"error:"
 #define NOTE	"note:"
 #define WARNING_CN	"警告："
 #define ERROR_CN	"错误："
-#define NOTE_CN	"附注："
+#define NOTE_CN		"附注："
 #define MARK_NUM	6
 
 #define TRUE	1
@@ -39,156 +39,138 @@ struct mark_st
 {
 	const char *mark;
 	const char *color;
-	int b_cn;
+	const char *print_self;
 };
 
 static struct mark_st Mark[MARK_NUM] = 
 {
-	{WARNING, WARNING_COLOR, FALSE},
-	{ERROR, ERROR_COLOR, FALSE},
-	{NOTE, NOTE_COLOR, FALSE},
-	{WARNING_CN, WARNING_COLOR, TRUE},
-	{ERROR_CN, ERROR_COLOR, TRUE},
-	{NOTE_CN, NOTE_COLOR, TRUE},
+	{WARNING,    WARNING_COLOR, WARNING_COLOR "warning" COLOR_END ":"},
+	{ERROR,      ERROR_COLOR,   ERROR_COLOR "error" COLOR_END ":"},
+	{NOTE,       NOTE_COLOR,    NOTE_COLOR "note" COLOR_END ":"},
+	{WARNING_CN, WARNING_COLOR, WARNING_COLOR "警告" COLOR_END "："},
+	{ERROR_CN,   ERROR_COLOR,   ERROR_COLOR "错误" COLOR_END "："},
+	{NOTE_CN,    NOTE_COLOR,    NOTE_COLOR "附注" COLOR_END "："},
 };
 
-// function declare
-static void color_print_line(const char *line, const char *color, int b_cn);
-static void color_print_make_error(const char *line);
-static int str_char_count(const char *str, char c);
 
-
-int main(void)
+static int str_char_count(const char *str, char c, int len)
 {
-	char line[LINE_SIZE];
-	int i;
-	size_t make_len = strlen(MAKE);
+	int count = 0;
 
-	while (1)
+	while (len-- > 0)
 	{
-		if (0 != feof(stdin) || NULL == fgets(line, LINE_SIZE, stdin) )
+		if (c == *(str++) )
 		{
-			break;
-		}
-
-		// color_comile.c:35:6: warning: unused variable ‘t’ [-Wunused-variable]
-		// xx.c:11:41: fatal error: include/xx.h: No such file or directory
-		// test.c:24:2: 错误： ‘a’未声明(在此函数内第一次使用)
-		// test.c:24: 错误：‘a’未声明(在此函数内第一次使用) // centos, gcc4.2
-		if (str_char_count(line, ':') < 3)
-		{
-			if (0 == strncmp(line, MAKE, make_len)) // make error at end
-			{
-				color_print_make_error(line);
-			}
-			else
-			{
-				printf("%s", line);
-			}
-			continue;
-		}
-
-		for (i = 0; i < MARK_NUM; ++i)
-		{
-			if (NULL != strstr(line, Mark[i].mark))
-			{
-				color_print_line(line, Mark[i].color, Mark[i].b_cn);
-				break;
-			}
-		}
-
-		if (MARK_NUM == i)
-		{
-			printf("%s", line);
+			++count;
 		}
 	}
-	
-	return 0;
+
+	return count;
 }
 
-static void color_print_line(const char *line, const char *color, int b_cn)
+static void color_print_line(const char *line, const char *mark_p, int m_i)
 {
-	// color_comile.c:35:6: warning: unused variable ‘t’ [-Wunused-variable]
-	// arm-linux-gcc: error: xxx: No such file or directory
-	// gcc: 错误： test.c：没有那个文件或目录
-	// gcc: 致命错误： 没有输入文件
 	char *filename;
 	char *row;
 	char *col;
-	char *msg;
 	char buf[LINE_SIZE];
+	char *p;
+	int colon_num;
 
-	filename = index(line, ':');
-	snprintf(buf, filename - line + 1, "%s", line);
-	printf("%s%s%s%s:", color, BOLD, buf, COLOR_END);
-
-	row = index(filename + 1, ':');
-	if (row != NULL)
+	colon_num = str_char_count(line, ':', mark_p - line);
+	if (1 == colon_num)
 	{
+		// gcc: 错误： test.c：没有那个文件或目录
+		// gcc: 致命错误： 没有输入文件
+		// gcc: fatal error: no input files
+		// collect2: error: ld returned 1 exit status
+		p = index(line, ':');
+		snprintf(buf, p - line + 1, "%s", line);
+		printf("%s%s%s%s", PURPLE, BOLD, buf, COLOR_END);
+
+		snprintf(buf, mark_p - p + 1, "%s", p);
+		printf("%s", buf);
+
+		printf("%s", Mark[m_i].print_self);
+
+		printf("%s%s%s%s", Mark[m_i].color, BOLD, mark_p + strlen(Mark[m_i].mark), COLOR_END);
+	}
+	else if (2 == colon_num)
+	{
+		// test.c:24: 错误：‘a’未声明(在此函数内第一次使用) // centos, gcc4.2
+		filename = index(line, ':');
+		snprintf(buf, filename - line + 1, "%s", line);
+		printf("%s%s%s%s:", Mark[m_i].color, BOLD, buf, COLOR_END);
+
+		row = index(filename + 1, ':');
+		snprintf(buf, row - filename, "%s", filename + 1);
+		printf("%s%s%s%s", ROW_COLOR, BOLD, buf, COLOR_END);
+
+		snprintf(buf, mark_p - row + 1, "%s", row);
+		printf("%s", buf);
+
+		printf("%s", Mark[m_i].print_self);
+
+		printf("%s%s%s%s", Mark[m_i].color, BOLD, mark_p + strlen(Mark[m_i].mark), COLOR_END);
+	}
+	else if (3 == colon_num)
+	{
+		// color_comile.c:35:6: warning: unused variable ‘t’ [-Wunused-variable]
+		// xx.c:11:41: fatal error: include/xx.h: No such file or directory
+		filename = index(line, ':');
+		snprintf(buf, filename - line + 1, "%s", line);
+		printf("%s%s%s%s:", Mark[m_i].color, BOLD, buf, COLOR_END);
+
+		row = index(filename + 1, ':');
 		snprintf(buf, row - filename, "%s", filename + 1);
 		printf("%s%s%s%s:", ROW_COLOR, BOLD, buf, COLOR_END);
-	}
-	else
-	{
-		printf("%s\n", filename + 1);
-		return;
-	}
-	
 
-	col = index(row + 1, ':');
-	if (col != NULL)
-	{
+		col = index(row + 1, ':');
 		snprintf(buf, col - row, "%s", row + 1);
-		printf("%s%s%s:", COL_COLOR, buf, COLOR_END);
+		printf("%s%s%s", COL_COLOR, buf, COLOR_END);
+
+		snprintf(buf, mark_p - col + 1, "%s", col);
+		printf("%s", buf);
+		printf("%s", Mark[m_i].print_self);
+
+		printf("%s%s%s%s", Mark[m_i].color, BOLD, mark_p + strlen(Mark[m_i].mark), COLOR_END);
 	}
 	else
 	{
-		printf("%s\n", row + 1);
-		return;
+		printf("%s", line);
 	}
+}
 
-	if (FALSE == b_cn)
-	{
-		msg = index(col + 1, ':');
-		if (msg != NULL)
-		{
-			snprintf(buf, msg - col, "%s", col + 1);
-			printf("%s%s%s:", color, buf, COLOR_END);
+static void color_print_line_mark(const char *line, int len)
+{
+	//  char p; // this is a warning
+	//       ^
+	char buf[LINE_SIZE];
+	snprintf(buf, len - 1, "%s", line);
+	printf("%s", buf);
 
-			printf("%s%s%s%s", color, BOLD, msg + 1, COLOR_END);
-		}
-		else
-		{
-			printf("%s\n", col + 1);
-		}
-	}
-	else
-	{
-		msg = strstr(col + 1, "：");
-		if (msg != NULL)
-		{
-			snprintf(buf, msg - col, "%s", col + 1);
-			printf("%s%s%s：", color, buf, COLOR_END);
+	printf("%s%s%c%s", GREEN, BOLD, '^', COLOR_END);
 
-			printf("%s%s%s%s", color, BOLD, msg + strlen("："), COLOR_END);
-		}
-		else
-		{
-			printf("%s\n", col + 1);
-		}
-	}
-
-	return;
+	printf("%s", line + len - 1);
 }
 
 static void color_print_make_error(const char *line)
 {
 	// make: *** [obj/main.o] Error 1
+	// make[5]: *** [libmpc.la] Error 1
 	char *left;
 	char *right;
 	char buf[LINE_SIZE];
+	char *p;
+	const char *sign = "***";
 
-	left = index(line, '[');
+	if (NULL == (p = strstr(line, sign)) )
+	{
+		printf("%s", line);
+		return;
+	}
+
+	left = index(p, '[');
 	if (left != NULL)
 	{
 		snprintf(buf, left - line + 1, "%s", line);
@@ -206,18 +188,60 @@ static void color_print_make_error(const char *line)
 	}
 }
 
-static int str_char_count(const char *str, char c)
+/*------------------ main func ------------------*/
+int main(void)
 {
-	int count = 0;
+	char line[LINE_SIZE];
+	int i;
+	int len;
+	char *p;
 
-	while ('\0' != *str)
+	while (1)
 	{
-		if (c == *(str++) )
+		if (0 != feof(stdin) || NULL == fgets(line, LINE_SIZE, stdin) )
 		{
-			count++;
+			break;
+		}
+
+		len = strlen(line);
+
+		// case 1: ^
+		if (len >= 2 && '^' == line[len - 2])
+		{
+			color_print_line_mark(line, len);
+			continue;
+		}
+
+		// ":" number must >= 1
+		if (0 == str_char_count(line, ':', len) )
+		{
+			printf("%s", line);
+			continue;
+		}
+
+		// case 2: make
+		if (0 == strncmp(line, MAKE, strlen(MAKE)) )
+		{
+			color_print_make_error(line);
+			continue;
+		}
+
+		// case 3: error, warning, note ...
+		for (i = 0; i < MARK_NUM; ++i)
+		{
+			if (NULL != (p = strstr(line, Mark[i].mark)) )
+			{
+				color_print_line(line, p, i);
+				break;
+			}
+		}
+
+		if (MARK_NUM == i)
+		{
+			printf("%s", line);
 		}
 	}
-
-	return count;
+	
+	return 0;
 }
 

@@ -1,0 +1,30 @@
+collect2: error: ld returned 1 exit status
+make: *** [all] Error 1
+
+make[5]: *** [libmpc.la] Error 1
+make[5]: Leaving directory `/home/aran/tmp/gcc-4.9.3/gcc_temp/mpc/src'
+Making all in tests
+make[5]: Entering directory `/home/aran/tmp/gcc-4.9.3/gcc_temp/mpc/tests'
+make[5]: Nothing to be done for `all'.
+
+color_comile.c:35:6: warning: unused variable ‘t’ [-Wunused-variable]
+arm-linux-gcc: error: xxx: No such file or directory
+gcc: 错误： test.c：没有那个文件或目录
+gcc: 致命错误： 没有输入文件
+
+gcc: error: test.c: No such file or directory
+gcc: fatal error: no input files
+compilation terminated.
+
+color_comile.c:35:6: warning: unused variable ‘t’ [-Wunused-variable]
+xx.c:11:41: fatal error: include/xx.h: No such file or directory
+test.c:24:2: 错误： ‘a’未声明(在此函数内第一次使用)
+test.c:24: 错误：‘a’未声明(在此函数内第一次使用) // centos, gcc4.2
+
+./obj/handle_market_info.o: In function `add_print_qrcode_bmp(char const*)':
+handle_market_info.cpp:(.text+0xac4): undefined reference to `QR_generate_bmp_ex'
+collect2: error: ld returned 1 exit status
+
+  char p; // this is a warning
+       ^
+[end]
