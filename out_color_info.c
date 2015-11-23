@@ -1,3 +1,11 @@
+/*
+ * out_color_info.c - show diffrent color when get warnning, note, error ...
+ *
+ * Copyright (c) 2014-2015 Alan Wang <alan@wrcode.com>
+ *
+ * This file is released under the Apache Licene 2.0.
+ */
+
 #include <stdio.h>
 #include <string.h>
 
@@ -86,10 +94,10 @@ static void color_print_line(const char *line, const char *mark_p, int m_i)
 		// collect2: error: ld returned 1 exit status
 		p = index(line, ':');
 		snprintf(buf, p - line + 1, "%s", line);
-		printf("%s%s%s%s", PURPLE, BOLD, buf, COLOR_END);
+		printf("%s%s%s%s:", PURPLE, BOLD, buf, COLOR_END);
 
-		snprintf(buf, mark_p - p + 1, "%s", p);
-		printf("%s", buf);
+		snprintf(buf, mark_p - p, "%s", p + 1);
+		printf("%s%s%s", Mark[m_i].color, buf, COLOR_END);
 
 		printf("%s", Mark[m_i].print_self);
 
@@ -104,10 +112,10 @@ static void color_print_line(const char *line, const char *mark_p, int m_i)
 
 		row = index(filename + 1, ':');
 		snprintf(buf, row - filename, "%s", filename + 1);
-		printf("%s%s%s%s", ROW_COLOR, BOLD, buf, COLOR_END);
+		printf("%s%s%s%s:", ROW_COLOR, BOLD, buf, COLOR_END);
 
-		snprintf(buf, mark_p - row + 1, "%s", row);
-		printf("%s", buf);
+		snprintf(buf, mark_p - row, "%s", row + 1);
+		printf("%s%s%s", Mark[m_i].color, buf, COLOR_END);
 
 		printf("%s", Mark[m_i].print_self);
 
@@ -127,10 +135,11 @@ static void color_print_line(const char *line, const char *mark_p, int m_i)
 
 		col = index(row + 1, ':');
 		snprintf(buf, col - row, "%s", row + 1);
-		printf("%s%s%s", COL_COLOR, buf, COLOR_END);
+		printf("%s%s%s:", COL_COLOR, buf, COLOR_END);
 
-		snprintf(buf, mark_p - col + 1, "%s", col);
-		printf("%s", buf);
+		snprintf(buf, mark_p - col, "%s", col + 1);
+		printf("%s%s%s", Mark[m_i].color, buf, COLOR_END);
+
 		printf("%s", Mark[m_i].print_self);
 
 		printf("%s%s%s%s", Mark[m_i].color, BOLD, mark_p + strlen(Mark[m_i].mark), COLOR_END);

@@ -1,3 +1,11 @@
+/*
+ * color_compile.c - handle compile command
+ *
+ * Copyright (c) 2014-2015 Alan Wang <alan@wrcode.com>
+ *
+ * This file is released under the Apache Licene 2.0.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
