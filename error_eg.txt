@@ -27,4 +27,8 @@ collect2: error: ld returned 1 exit status
 
   char p; // this is a warning
        ^
+make_print_src_file.c: At top level:
+make_print_src_file.c:342:13: warning: ‘handle_head_judge’ defined but not used [-Wunused-function]
+ static void handle_head_judge(void)
+             ^
 [end]

@@ -30,7 +30,8 @@
 #define ROW_COLOR	PURPLE
 #define COL_COLOR	BLUE
 
-#define MAKE	"make"
+#define MAKE		"make"
+#define MAKE_SIGN	"***"
 
 #define WARNING	"warning:"
 #define ERROR	"error:"
@@ -163,23 +164,15 @@ static void color_print_line_mark(const char *line, int len)
 	printf("%s", line + len - 1);
 }
 
-static void color_print_make_error(const char *line)
+static void color_print_make_error(const char *line, const char *p_sign)
 {
 	// make: *** [obj/main.o] Error 1
 	// make[5]: *** [libmpc.la] Error 1
 	char *left;
 	char *right;
 	char buf[LINE_SIZE];
-	char *p;
-	const char *sign = "***";
 
-	if (NULL == (p = strstr(line, sign)) )
-	{
-		printf("%s", line);
-		return;
-	}
-
-	left = index(p, '[');
+	left = index(p_sign, '[');
 	if (left != NULL)
 	{
 		snprintf(buf, left - line + 1, "%s", line);
@@ -231,8 +224,11 @@ int main(void)
 		// case 2: make
 		if (0 == strncmp(line, MAKE, strlen(MAKE)) )
 		{
-			color_print_make_error(line);
-			continue;
+			if (NULL != (p = strstr(line, MAKE_SIGN)) )
+			{
+				color_print_make_error(line, p);
+				continue;
+			}
 		}
 
 		// case 3: error, warning, note ...
