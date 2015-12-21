@@ -1,5 +1,9 @@
 CFLAGS	:= -Wall
 OBJ	:= color_compile out_color_info
+
+# if you use other shell, please change it
+# bash: .bashrc
+# zsh:  .zshrc
 ALIAS_FILE	:= ~/.bashrc
 
 all: $(OBJ)
