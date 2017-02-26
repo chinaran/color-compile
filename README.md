@@ -70,3 +70,30 @@ Licence: Apache Licene 2.0
 **(3)** 如果你需要添加新的编译工具，可以修改Makefile 的 install: 处，以 arm-linux-gcc 为例，echo 'alias arm-linux-gcc="color_compile arm-linux-gcc"' >> $(ALIAS_FILE)，或者直接修改 ~/.bashrc 都行。
 
 **(4)** 如果你需要更改显示的颜色，直接修改 out_color_info.c 源码就行，其中有一些颜色定义的宏。
+
+
+
+# 2017-02-26更新
+-------
+
+**修复了mingw下的显示异常的问题**
+
+
+由于 `linux` 和 `windows` 下snprintf返回值不同
+
+根据输出结果总结如下：
+
+1.	在 `windows` 下, 如果字符串长度大于 `count`, 函数返回 `-1` 以标志可能导致的错误, 如果字符串长度小于或者等于 `count`, 函数返回实际的字符串的长度. 在 `linux` 下, 返回实际的字符串的长度.
+
+2.	输出不同, 在 `windows` 下, 如果字符串长度大于 `count`, 会输出 `count` 个字符, 但是没有结束符, 后面的值会混乱; 如果字符串的长度等于 `count`, 输出全部字符串, 但是没有结束符, 后面的值同样很混乱; 在 `linux` 下, 永远输出 `count - 1` 个字符, 加一个结束符 '\0', 所以在本例子中, `count = 13` 时, 无论 `windows` 下还是 `linux` 下都正确.
+
+
+因此修改代码中, `snprintf` 后, 增加 buf[XXX] = '\0';
+
+
+```cpp
+snprintf(buf, mark_p - p, "%s", p + 1);
+buf[mark_p - p - 1] = '\0';
+```
+
+
