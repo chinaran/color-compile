@@ -1,3 +1,5 @@
+
+
 color-compile
 =============
 
@@ -43,7 +45,7 @@ Author: Alan Wang <gchinaran@gmail.com>
 
 Started: Dec. 20, 2014
 
-Licence: Apache Licene 2.0
+Licence: Apache License 2.0
 
 中文说明：
 ---------
