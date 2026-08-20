@@ -44,6 +44,9 @@
 #define TRUE	1
 #define FALSE	0
 
+
+#define index strchr
+
 struct mark_st
 {
 	const char *mark;
@@ -51,7 +54,7 @@ struct mark_st
 	const char *print_self;
 };
 
-static struct mark_st Mark[MARK_NUM] = 
+static struct mark_st Mark[MARK_NUM] =
 {
 	{WARNING,    WARNING_COLOR, WARNING_COLOR "warning" COLOR_END ":"},
 	{ERROR,      ERROR_COLOR,   ERROR_COLOR "error" COLOR_END ":"},
@@ -95,9 +98,11 @@ static void color_print_line(const char *line, const char *mark_p, int m_i)
 		// collect2: error: ld returned 1 exit status
 		p = index(line, ':');
 		snprintf(buf, p - line + 1, "%s", line);
+		buf[p - line] = '\0';
 		printf("%s%s%s%s:", PURPLE, BOLD, buf, COLOR_END);
 
 		snprintf(buf, mark_p - p, "%s", p + 1);
+		buf[mark_p - p - 1] = '\0';
 		printf("%s%s%s", Mark[m_i].color, buf, COLOR_END);
 
 		printf("%s", Mark[m_i].print_self);
@@ -109,10 +114,12 @@ static void color_print_line(const char *line, const char *mark_p, int m_i)
 		// test.c:24: 错误：‘a’未声明(在此函数内第一次使用) // centos, gcc4.2
 		filename = index(line, ':');
 		snprintf(buf, filename - line + 1, "%s", line);
+		buf[filename - line] = '\0';
 		printf("%s%s%s%s:", Mark[m_i].color, BOLD, buf, COLOR_END);
 
 		row = index(filename + 1, ':');
 		snprintf(buf, row - filename, "%s", filename + 1);
+		buf[row - filename - 1] = '\0';
 		printf("%s%s%s%s:", ROW_COLOR, BOLD, buf, COLOR_END);
 
 		snprintf(buf, mark_p - row, "%s", row + 1);
@@ -128,17 +135,21 @@ static void color_print_line(const char *line, const char *mark_p, int m_i)
 		// xx.c:11:41: fatal error: include/xx.h: No such file or directory
 		filename = index(line, ':');
 		snprintf(buf, filename - line + 1, "%s", line);
+		buf[filename - line] = '\0';
 		printf("%s%s%s%s:", Mark[m_i].color, BOLD, buf, COLOR_END);
 
 		row = index(filename + 1, ':');
 		snprintf(buf, row - filename, "%s", filename + 1);
+		buf[row - filename - 1] = '\0';
 		printf("%s%s%s%s:", ROW_COLOR, BOLD, buf, COLOR_END);
 
 		col = index(row + 1, ':');
 		snprintf(buf, col - row, "%s", row + 1);
+		buf[col - row - 1] = '\0';
 		printf("%s%s%s:", COL_COLOR, buf, COLOR_END);
 
 		snprintf(buf, mark_p - col, "%s", col + 1);
+		buf[mark_p - col - 1] = '\0';
 		printf("%s%s%s", Mark[m_i].color, buf, COLOR_END);
 
 		printf("%s", Mark[m_i].print_self);
@@ -176,10 +187,12 @@ static void color_print_make_error(const char *line, const char *p_sign)
 	if (left != NULL)
 	{
 		snprintf(buf, left - line + 1, "%s", line);
+		buf[left - line] = '\0';
 		printf("%s%s%s%s", RED, BOLD, buf, COLOR_END);
-		
+
 		right = index(left + 1, ']');
 		snprintf(buf, right - left + 2, "%s", left);
+		buf[right - left + 1] = '\0';
 		printf("%s%s%s", YELLOW, buf, COLOR_END);
 
 		printf("%s%s%s%s", RED, BOLD, right + 1, COLOR_END);
@@ -246,7 +259,7 @@ int main(void)
 			printf("%s", line);
 		}
 	}
-	
+
 	return 0;
 }
 

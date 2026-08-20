@@ -18,13 +18,12 @@ int main(int argc, char const *argv[])
 {
 	int i;
 	char buf[BUF_SIZE];
-
 	if (argc < 2 || 0 != strcmp(argv[0], "color_compile") )
+	if (argc < 2)
 	{
 		fprintf(stderr, "[color_compile] bad argument...\n");
 		return 1;
 	}
-
 	// declude make menuconfig
 	if (3 == argc && 0 == strcmp(argv[1], "make") && 
 	    0 == strcmp(argv[2], "menuconfig") )
